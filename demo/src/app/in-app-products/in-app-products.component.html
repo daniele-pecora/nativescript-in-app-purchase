@@ -1,0 +1,244 @@
+<ActionBar class="action-bar custom-action-bar">
+
+    <NavigationButton text="Home" [nsRouterLink]="['/home']" icon="font://&#xe5c4;" class="material-icons"
+        pageTransition="slideRight" clearHistory="true">
+    </NavigationButton>
+
+    <Label class="action-bar-title" text="In app products"></Label>
+    <ActionItem 
+        text="Info" 
+        (tap)="showInfo()" 
+        ios.position="right" 
+        icon="font://&#xe88e;"
+        class="material-icons action-bar-icons"
+        android.position="actionBarIfRoom"></ActionItem>
+</ActionBar>
+
+
+
+<!-- product list template-->
+<ng-template #productItemsTemplate let-type="type" let-items="items">
+    <StackLayout 
+    *ngIf="0===(items||[]).length"
+    height="100%" 
+    orientation="vertical" 
+    verticalAlignment="center"
+    (tap)="toggleLoadingProducts(type)" 
+    >
+        <Label horizontalAlignment="center">
+            <FormattedString>
+                <Span text="&#xe928;" 
+                class="material-icons mat-icon--big product_list-image--empty"></Span>
+            </FormattedString>
+        </Label>
+        <Label 
+            horizontalAlignment="center"
+            textWrap="true" 
+            [text]="loading?'Loading...':'Tap to load'" 
+            class="h3 description-label product_list-sub--empty"
+            >
+        </Label>
+    </StackLayout>
+    <ListView
+        *ngIf="!loading && (items||[]).length"
+        [items]="items"
+        height="100%"
+        >
+        <ng-template let-item="item">
+            <FlexboxLayout flexDirection="column" (onTap)="doBuyProduct(item)">
+                <Label [text]="item.product.title" class="h3" verticalAlignment="center" style="width: 60%"></Label>
+                <Label [text]="item.product.description" class="h5" verticalAlignment="center" style="width: 100%"></Label>
+                <Label
+                    text="Owned: {{item.purchased}}, Consumable: {{item.options.consumable}}"
+                    class="h6" verticalAlignment="center" style="width: 100%"></Label>
+            </FlexboxLayout>
+        </ng-template>
+    </ListView>
+</ng-template>
+
+<!-- product ids template -->
+<ng-template #productsIDsTemplate let-type="type" let-items="items">
+        <GridLayout rows="*,auto">
+            <TextView 
+                hint="IDs not loaded yet" 
+                text="{{ getProductDefinitions()|json }}" 
+                secure="false"
+                editable="false" 
+                row="0"
+                >
+            </TextView>
+            <Button 
+                class="-xprimary -rounded-lg"
+                title="Open url in browser: {{productsService.productIDsUrl}}" 
+                (tap)="openProductIDsUrlInBrowser()"
+                horizontalAlignment="right"
+                row="1"
+                >
+                <FormattedString>
+                    <Span text="&#xe89d;" class="material-icons"></Span>
+                    <Span text=" "></Span>
+                    <Span text="Open in browser"></Span>
+                </FormattedString>
+            </Button>
+        </GridLayout>
+</ng-template>
+
+<!-- purchases empty /*buttomNavigation.selectedIndex=0*/-->
+<ng-template #purchasesTemplate let-items="items">
+    <StackLayout 
+    *ngIf="0===(items||[]).length"
+    height="100%" 
+    orientation="vertical" 
+    verticalAlignment="center"
+    (tap)="tappedOnRestoreEmptyScreen()" 
+    >
+        <Label horizontalAlignment="center">
+            <FormattedString>
+                <Span [text]="restoring?'&#xe8cb;':'&#xe854;'" 
+                class="material-icons mat-icon--big product_list-image--empty"></Span>
+            </FormattedString>
+        </Label>
+        <Label 
+            horizontalAlignment="center"
+            textWrap="true" 
+            [text]="restoring?'Loading...':'Add some purchases'" 
+            class="h3 description-label product_list-sub--empty"
+            >
+        </Label>
+    </StackLayout>
+    <ListView
+        *ngIf="!restoring && (items||[]).length"
+        [items]="items"
+        height="100%"
+        >
+        <ng-template let-item="item">
+            <FlexboxLayout flexDirection="column">
+                <Label [text]="item?.product?.title" class="h3" verticalAlignment="center" style="width: 60%"></Label>
+                <Label [text]="item?.product?.description" class="h5" verticalAlignment="center" style="width: 100%"></Label>
+                <Label textWrap="true" 
+                    text="Product: {{item.productId}}, Time: {{item.purchaseTime}}, Order: {{item.purchaseId}} "
+                    class="h6" verticalAlignment="center" style="width: 100%;text-overflow: ellipsis;"></Label>
+            </FlexboxLayout>
+        </ng-template>
+    </ListView>
+</ng-template>
+
+<!-- purchased products empty /*buttomNavigation.selectedIndex=0*/-->
+<ng-template #purchasedProductsTemplate let-items="items">
+    <StackLayout 
+    *ngIf="0===(items||[]).length"
+    height="100%" 
+    orientation="vertical" 
+    verticalAlignment="center"
+    (tap)="tappedOnRestoreEmptyScreen()" 
+    >
+        <Label horizontalAlignment="center">
+            <FormattedString>
+                <Span [text]="restoring?'&#xe8cb;':'&#xe854;'" 
+                class="material-icons mat-icon--big product_list-image--empty"></Span>
+            </FormattedString>
+        </Label>
+        <Label 
+            horizontalAlignment="center"
+            textWrap="true" 
+            [text]="restoring?'Loading...':'Add some purchases'" 
+            class="h3 description-label product_list-sub--empty"
+            >
+        </Label>
+    </StackLayout>
+    <ListView
+        *ngIf="!restoring && (items||[]).length"
+        [items]="items"
+        height="100%"
+        >
+        <ng-template let-pItems="item">
+            <FlexboxLayout flexDirection="column">
+                <ng-container *ngFor="let item of pItems;let i = index">
+                    <Label *ngIf="i === 0" [text]="item?.product?.title" class="h3" verticalAlignment="center" style="width: 60%"></Label>
+                    <Label *ngIf="i === 0" [text]="item?.product?.description" class="h5" verticalAlignment="center" style="width: 100%"></Label>
+                    <Label (onTap)="showInfoPurchased(item)" textWrap="true" 
+                        text="Product: {{item.productId}}, Time: {{item.purchaseTime}}, Order: {{item.purchaseId}} "
+                        class="h6" verticalAlignment="center" style="width: 100%;text-overflow: ellipsis;"></Label>
+                </ng-container>
+            </FlexboxLayout>
+        </ng-template>
+    </ListView>
+</ng-template>
+
+<!--
+    Direct binding the property like: `[selectedIndex]="selectedIndex"`
+    will cause no tab being selected on iOS.
+    So the content of the first tab is never shown.
+-->
+<BottomNavigation 
+    #buttomNavigation
+    selectedIndex="0"
+    (selectedIndexChanged)="selectedIndexChanged(buttomNavigation.selectedIndex)"
+>
+    <TabStrip #tabStrip>
+        <TabStripItem>
+            <Label text="Items"></Label>
+            <Image src="font://&#xe8d0;" class="material-icons"></Image>
+        </TabStripItem>
+        <TabStripItem class="special">
+            <Label text="Subscriptions"></Label>
+            <Image src="font://&#xe064;" class="material-icons"></Image>
+        </TabStripItem>
+        <TabStripItem>
+            <Label text="Purchases"></Label>
+            <Image src="font://&#xe8cb;" class="material-icons"></Image>
+        </TabStripItem>
+        <TabStripItem class="special">
+            <Label text="Show IDs"></Label>
+            <Image src="font://&#xe8f4;" class="material-icons"></Image>
+        </TabStripItem>
+    </TabStrip>
+
+    <!-- product list - in app purchase -->
+    <TabContentItem>
+        <GridLayout rows="auto,*">
+            <Label row="0" class="h2 text-center" 
+                [text]="loading?'Loading...':'Product items'"
+                ></Label>
+            <StackLayout row="1">
+                <ng-container [ngTemplateOutlet]="productItemsTemplate" 
+                [ngTemplateOutletContext]="{type:'InAppPurchase', items:productsItems_InAppPurchase}"></ng-container>
+            </StackLayout>
+        </GridLayout>
+    </TabContentItem>
+    <!-- product list - subscriptions -->
+    <TabContentItem>
+        <GridLayout rows="auto,*">
+            <Label row="0" class="h2 text-center" 
+                [text]="loading?'Loading...':'Subscriptions'"
+                ></Label>
+            <StackLayout row="1">
+                <ng-container [ngTemplateOutlet]="productItemsTemplate" 
+                [ngTemplateOutletContext]="{type:'Subscription', items:productsItems_Subscription}"></ng-container>
+            </StackLayout>
+        </GridLayout>
+    </TabContentItem>
+    <!-- product list - purchased -->
+    <TabContentItem>
+        <GridLayout rows="auto,*">
+            <Label row="0" class="h2 text-center" 
+            [text]="restoring?'Loading...':'Purchases'"  
+            ></Label>
+            <StackLayout row="1">
+                <!-- <ng-container [ngTemplateOutlet]="purchasesTemplate"
+                [ngTemplateOutletContext]="{items:purchaseItems_Restored}"></ng-container> -->
+                <ng-container [ngTemplateOutlet]="purchasedProductsTemplate"
+                [ngTemplateOutletContext]="{items:purchasedProductsMap_values}"></ng-container>
+            </StackLayout>
+        </GridLayout>
+    </TabContentItem>
+    <!-- product ids -->
+    <TabContentItem>
+        <GridLayout rows="auto,*">
+            <Label text="Show product IDs" class="h2 text-center"></Label>
+            <StackLayout row="1">
+                <ng-container [ngTemplateOutlet]="productsIDsTemplate"></ng-container>
+            </StackLayout>
+        </GridLayout>
+    </TabContentItem>
+</BottomNavigation>

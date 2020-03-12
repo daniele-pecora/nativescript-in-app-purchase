@@ -1,0 +1,9 @@
+@import "./app.common.css";
+
+.action-bar-icons {
+    font-size: 10dp;
+}
+
+.custom-action-bar {
+    color: white;
+}

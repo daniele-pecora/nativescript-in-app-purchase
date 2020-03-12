@@ -1,0 +1,40 @@
+<ActionBar>
+    <Label text="Home"></Label>
+</ActionBar>
+
+<GridLayout class="page">
+    <!-- Add your page content here -->
+    <ScrollView>
+        <StackLayout class="home-panel">
+            <Label 
+                horizontalAlignment="center"
+                textWrap="true" 
+                class="h2 description-label">
+                <FormattedString>
+                    <Span text="&#xe8ca;" class="material-icons"></Span>
+                    <Span text=" "></Span>
+                    <Span text="In app purchases"></Span>
+                </FormattedString>
+            </Label>
+
+            <Label 
+                textWrap="true" 
+                class="description-label">
+                <FormattedString>
+                    <Span text="This app is an example for the nativescript-in-app-purchase plugin."></Span>
+                </FormattedString>
+            </Label>
+        </StackLayout>
+    </ScrollView>
+    <Button
+        verticalAlignment="bottom"
+        [nsRouterLink]="['/in-app-products']" pageTransition="slide" 
+        class="-primary -rounded-lg home-panel-bottom-button"
+        >
+        <FormattedString>
+            <Span text="START TESTING"></Span>
+            <Span text=" "></Span>
+            <Span text="&#xe163;" class="material-icons"></Span>
+        </FormattedString>
+    </Button>
+</GridLayout>
