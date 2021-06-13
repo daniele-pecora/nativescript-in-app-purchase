@@ -202,6 +202,6 @@ Apache License Version 2.0, January 2020
 ## Donation
 
 Donate with Bitcoin   
-**[3GFxvCK4nnTvHcLpVtFDQhdjANzRGBV6G6](bitcoin:3GFxvCK4nnTvHcLpVtFDQhdjANzRGBV6G6)**  
-[![Open in Wallet](https://chart.apis.google.com/chart?chs=200x200&cht=qr&chld=L&chl=bitcoin%3A3GFxvCK4nnTvHcLpVtFDQhdjANzRGBV6G6)](bitcoin:3GFxvCK4nnTvHcLpVtFDQhdjANzRGBV6G6)  
-**[Open in Wallet](bitcoin:3GFxvCK4nnTvHcLpVtFDQhdjANzRGBV6G6)**   
+**[3Fz8jmgTnfpBTjgQXhRcsLkUqL7AcjLEHb](bitcoin:3Fz8jmgTnfpBTjgQXhRcsLkUqL7AcjLEHb)**  
+[![Open in Wallet](https://chart.apis.google.com/chart?chs=200x200&cht=qr&chld=L&chl=bitcoin%3A3Fz8jmgTnfpBTjgQXhRcsLkUqL7AcjLEHb)](bitcoin:3Fz8jmgTnfpBTjgQXhRcsLkUqL7AcjLEHb)  
+**[Open in Wallet](bitcoin:3Fz8jmgTnfpBTjgQXhRcsLkUqL7AcjLEHb)**   
