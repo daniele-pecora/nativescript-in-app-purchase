@@ -60,6 +60,16 @@ export declare class InAppPurchaseManager {
    */
   getStoreReceipt(): string
   /**
+   * On iOS, requests to refresh the store receipt, which represents the user's
+   * transactions with your app. It refreshes the store receipt for the
+   * currently logged in AppStore user. Use this API to request a new receipt if
+   * the receipt is invalid or missing.  On iOS, it returns a completed promise
+   * once the refresh is complete.
+   *
+   * On Android, the promise just always completes.
+   */
+  refreshStoreReceipt(): Promise<void>
+  /**
    * 
    * @param purchaseStateUpdateListener Get notified every time an update on a purchas occures.<br/>
    *                                     This listener is mandatory to manually confirm/aknowledge/finish any buy via the method<br/>

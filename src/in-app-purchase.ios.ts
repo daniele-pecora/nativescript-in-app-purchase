@@ -2,6 +2,9 @@ import { InAppPurchaseManagerBase, InAppPurchaseTransactionState, InAppProduct }
 import { InAppPurchaseStateUpdateListener, InAppPurchaseResultCode, InAppPurchaseType, InAppOrderResult, InAppOrderConfirmResult, InAppOrderHistoryResult, InAppListProductsResult } from "."
 import { InAppPurchaseUpdateNotifier } from '.'
 
+let refreshReceiptRequest: SKReceiptRefreshRequest;
+let refreshReceiptRequestDelegate: SKReceiptRefreshRequestDelegateImpl;
+
 export class InAppPurchaseManager extends InAppPurchaseManagerBase {
     isServiceConnected = false
 
@@ -151,6 +154,15 @@ export class InAppPurchaseManager extends InAppPurchaseManagerBase {
         } else {
             return null;
         }
+    }
+
+    refreshStoreReceipt(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            refreshReceiptRequest = SKReceiptRefreshRequest.alloc().init();
+            refreshReceiptRequestDelegate = SKReceiptRefreshRequestDelegateImpl.initWithResolveReject(resolve, reject);
+            refreshReceiptRequest.delegate = refreshReceiptRequestDelegate;
+            refreshReceiptRequest.start();
+        });
     }
 
     private isSupportedFeatures(productType: InAppPurchaseType): boolean {
@@ -401,4 +413,33 @@ class InAppPurchasesHistoryTransactionObserverImpl extends NSObject implements S
         }
     }
 
+}
+
+@ObjCClass(SKRequestDelegate)
+class SKReceiptRefreshRequestDelegateImpl extends NSObject implements SKRequestDelegate {
+    private _resolve: Function;
+    private _reject: Function;
+
+    public static initWithResolveReject(resolve: Function, reject: Function): SKReceiptRefreshRequestDelegateImpl {
+        const delegate: SKReceiptRefreshRequestDelegateImpl = SKReceiptRefreshRequestDelegateImpl.new() as SKReceiptRefreshRequestDelegateImpl;
+        delegate._resolve = resolve;
+        delegate._reject = reject;
+
+        return delegate;
+    }
+
+    public requestDidFinish(request: SKRequest) {
+        this._resolve();
+        this._cleanup();
+    }
+
+    public requestDidFailWithError(request: SKRequest, error: NSError) {
+        this._reject(new Error(error.localizedDescription));
+        this._cleanup();
+    }
+
+    private _cleanup() {
+        refreshReceiptRequestDelegate = null;
+        refreshReceiptRequest = null;
+    }
 }

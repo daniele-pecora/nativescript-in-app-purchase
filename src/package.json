@@ -1,6 +1,6 @@
 {
 	"name": "nativescript-in-app-purchase",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"description": "NativeScript plugin to handle in app purchases and subscriptions on Android and iOS.",
 	"main": "in-app-purchase",
 	"typings": "index.d.ts",

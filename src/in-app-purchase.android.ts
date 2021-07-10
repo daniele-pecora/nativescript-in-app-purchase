@@ -438,6 +438,10 @@ export class InAppPurchaseManager extends InAppPurchaseManagerBase {
         return undefined;
     }
 
+    refreshStoreReceipt(): Promise<void> {
+        return Promise.resolve();
+    }
+
     isSupportedFeatures(productType: InAppPurchaseType): boolean {
         const featureValue = this.getFeatureType(productType)
         if (!featureValue) {

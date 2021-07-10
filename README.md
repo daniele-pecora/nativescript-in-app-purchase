@@ -182,7 +182,7 @@ Order a product
 - `orderConfirm(purchaseTransaction: InAppPurchaseTransactionState, consumable: boolean): Promise<InAppOrderConfirmResult>`  
 Confirm the buy of a product to make it final
 - `purchaseHistory(): Promise<InAppOrderHistoryResult>`  
-Load user's owened products
+Load user's owned products
 - `canMakePayment(): boolean`  
 Check wether billing is enabled or not
 - `static bootStrapInstance(purchaseStateUpdateListener?: InAppPurchaseStateUpdateListener): Promise<InAppPurchaseManager>`  
@@ -190,8 +190,11 @@ Create a new instance of the in app purchase manager
 - `getStoreReceipt(): string`  
 Returns the application's Base64 encoded store receipt for the currently logged
 in iOS App Store user. For Android, this function always returns `undefined`.
+- `refreshStoreReceipt(): Promise<void>`  
+On iOS, request a new receipt if the receipt is invalid or missing.  
+On Android, the promise just completes.
 - `shutdown()`  
-Close connection to the unerlying OS billing API
+Close connection to the underlying OS billing API
 
 ## DEMO App
 
