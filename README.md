@@ -187,6 +187,9 @@ Load user's owened products
 Check wether billing is enabled or not
 - `static bootStrapInstance(purchaseStateUpdateListener?: InAppPurchaseStateUpdateListener): Promise<InAppPurchaseManager>`  
 Create a new instance of the in app purchase manager
+- `getStoreReceipt(): string`  
+Returns the application's Base64 encoded store receipt for the currently logged
+in iOS App Store user. For Android, this function always returns `undefined`.
 - `shutdown()`  
 Close connection to the unerlying OS billing API
 

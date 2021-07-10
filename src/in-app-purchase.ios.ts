@@ -141,6 +141,18 @@ export class InAppPurchaseManager extends InAppPurchaseManagerBase {
         return SKPaymentQueue.canMakePayments()
     }
 
+    getStoreReceipt(): string {
+        const receipt = NSData.dataWithContentsOfURL(
+            NSBundle.mainBundle.appStoreReceiptURL
+        );
+
+        if (receipt) {
+            return receipt.base64EncodedStringWithOptions(0);
+        } else {
+            return null;
+        }
+    }
+
     private isSupportedFeatures(productType: InAppPurchaseType): boolean {
         return true
     }

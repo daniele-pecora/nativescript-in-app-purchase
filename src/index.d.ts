@@ -49,6 +49,17 @@ export declare class InAppPurchaseManager {
    */
   canMakePayment(): boolean
   /**
+   * Returns the application's Base64 encoded store receipt for the currently
+   * logged in iOS App Store user. This is necessary for checking subscription
+   * status under iOS when hitting the ["verifyReceipt" Web Service Endpoint][1]
+   * in order to send a receipt to the App Store for verification.
+   *
+   * For Android, this function always returns `undefined`.
+   *
+   * [1]:https://developer.apple.com/documentation/appstorereceipts/verifyreceipt
+   */
+  getStoreReceipt(): string
+  /**
    * 
    * @param purchaseStateUpdateListener Get notified every time an update on a purchas occures.<br/>
    *                                     This listener is mandatory to manually confirm/aknowledge/finish any buy via the method<br/>

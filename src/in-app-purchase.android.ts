@@ -434,6 +434,10 @@ export class InAppPurchaseManager extends InAppPurchaseManagerBase {
         return this.isSupportedFeatures(InAppPurchaseType.InAppPurchase) && this.isSupportedFeatures(InAppPurchaseType.Subscription)
     }
 
+    getStoreReceipt(): string {
+        return undefined;
+    }
+
     isSupportedFeatures(productType: InAppPurchaseType): boolean {
         const featureValue = this.getFeatureType(productType)
         if (!featureValue) {
