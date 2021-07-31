@@ -1,0 +1,50 @@
+{
+  "name": "in-app-purchase-demo",
+  "displayName": "In App Purchase DEMO",
+  "nativescript": {
+    "id-android": "de.superfusion.mobile.nativescript_in_app_purchase.dev.demo",
+    "id-ios": "de.superfusion.mobile.nativescript-in-app-purchase.dev.demo",
+    "id": "de.superfusion.mobile.nativescript_in_app_purchase.dev.demo",
+    "tns-android": {
+      "version": "6.2.0",
+      "$_version_bump": 10029
+    },
+    "tns-ios": {
+      "version": "6.2.0",
+      "$_version_bump": "1.29"
+    }
+  },
+  "description": "NativeScript Application",
+  "license": "SEE LICENSE IN <your-license-filename>",
+  "repository": "<fill-your-repository-here>",
+  "dependencies": {
+    "@angular/animations": "~8.2.0",
+    "@angular/common": "~8.2.0",
+    "@angular/compiler": "~8.2.0",
+    "@angular/core": "~8.2.0",
+    "@angular/forms": "~8.2.0",
+    "@angular/platform-browser": "~8.2.0",
+    "@angular/platform-browser-dynamic": "~8.2.0",
+    "@angular/router": "~8.2.0",
+    "@nativescript/theme": "~2.2.0",
+    "nativescript-angular": "~8.20.0",
+    "nativescript-in-app-purchase": "file:../src",
+    "reflect-metadata": "~0.1.12",
+    "rxjs": "^6.4.0",
+    "tns-core-modules": "~6.2.0",
+    "zone.js": "~0.9.1"
+  },
+  "devDependencies": {
+    "@angular/compiler-cli": "~8.2.0",
+    "@ngtools/webpack": "~8.2.0",
+    "nativescript-dev-webpack": "~1.3.0",
+    "typescript": "~3.5.3"
+  },
+  "gitHead": "a6fec076a20f898feabb4466a2c411158c18a100",
+  "readme": "NativeScript Application",
+  "scripts": {
+    "bump-version-android": "node -e \"let a='app/App_Resources';try{a=(JSON.parse(require('fs').readFileSync('nsconfig.json'))||{}).appResourcesPath||''}catch(e){};var aManifest=a+'/Android/src/main/AndroidManifest.xml';var fs=require('fs');var xml=fs.readFileSync(aManifest,'utf8');var _xs;var _xv=xml;_xv=_xv.substring(_xs=_xv.indexOf('android:versionCode=\\\"')+'android:versionCode=\\\"'.length,_xv.indexOf('\\\"',_xs)).trim();var newXML=xml.replace(new RegExp('(.*)(android:versionCode=\\\")([0-9]*)(\\\")(.*)','g'),'\\$1\\$2'+'__VERSION__'+'\\$4\\$5');var version=Number.parseInt(_xv)+1;newXML=newXML.replace('__VERSION__',version);fs.writeFileSync(aManifest,newXML);console.log(version);\"",
+    "bump-version-ios": "node -e \"let a='app/App_Resources';try{a=(JSON.parse(require('fs').readFileSync('nsconfig.json'))||{}).appResourcesPath||''}catch(e){};var aManifest=a+'/iOS/Info.plist';var fs=require('fs');var xml=fs.readFileSync(aManifest,'utf8');var _xs;var _xv=xml;_xv=_xv.substring(_xs=_xv.indexOf('CFBundleVersion</key>')+'CFBundleVersion</key>'.length,_xv.indexOf('</string>',_xs)).replace('<string>','').replace('</string>','').trim();var newXML=xml.replace(new RegExp('(.*)(<key>CFBundleVersion</key>)([\\n\\r\\t])*(<string>)(.*)(</string>)',''),'\\$1\\$2\\$3\\n\\t\\$4__VERSION__\\$6');var _xva=_xv.split('.');_xva[_xva.length-1]=Number.parseInt(_xva[_xva.length-1])+1;var version=_xva.join('.');newXML=newXML.replace('__VERSION__',version);fs.writeFileSync(aManifest,newXML);console.log(version);\"",
+    "bump-version": "npm run bump-version-android && npm run bump-version-ios"
+  }
+}

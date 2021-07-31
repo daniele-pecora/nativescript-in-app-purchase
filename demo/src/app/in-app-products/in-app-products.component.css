@@ -1,0 +1,12 @@
+/* Add mobile styles for the component here.  */
+.product_list-image--empty{
+    color:#DDD;
+}
+
+.product_list-sub--empty{
+    color:#aaa;
+}
+
+.mat-icon--big {
+    font-size:150;
+}
